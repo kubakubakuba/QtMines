@@ -1,0 +1,30 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/0.png</file>
+        <file>assets/1.png</file>
+        <file>assets/2.png</file>
+        <file>assets/3.png</file>
+        <file>assets/4.png</file>
+        <file>assets/5.png</file>
+        <file>assets/6.png</file>
+        <file>assets/7.png</file>
+        <file>assets/8.png</file>
+        <file>assets/dead.png</file>
+        <file>assets/digit-.png</file>
+        <file>assets/digit0.png</file>
+        <file>assets/digit1.png</file>
+        <file>assets/digit2.png</file>
+        <file>assets/digit3.png</file>
+        <file>assets/digit4.png</file>
+        <file>assets/digit5.png</file>
+        <file>assets/digit6.png</file>
+        <file>assets/digit7.png</file>
+        <file>assets/digit8.png</file>
+        <file>assets/digit9.png</file>
+        <file>assets/flag.png</file>
+        <file>assets/mine.png</file>
+        <file>assets/mine-death.png</file>
+        <file>assets/misflagged.png</file>
+        <file>assets/smile.png</file>
+    </qresource>
+</RCC>
