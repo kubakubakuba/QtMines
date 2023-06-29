@@ -28,11 +28,17 @@ int main(int argc, char *argv[])
 
     int mine_size = 40;
 
+    const QIcon wIcon(":/assets/mine.png");
+    w.setWindowIcon(wIcon);
+
     w.num_active = 10;
+
+    w.mineField = MineField(w.mines_w, w.mines_h, w.num_active);
 
     QMenuBar *menuBar = new QMenuBar();
 
     QMenu *difficultyMenu = new QMenu("Difficulty", menuBar);
+    QMenu *configMenu = new QMenu("Config", menuBar);
 
     QAction *easyAction = new QAction("Easy");
     QObject::connect(easyAction, &QAction::triggered, [=, &w](){
@@ -61,34 +67,61 @@ int main(int argc, char *argv[])
 
         spinBoxes[0]->setRange(5, 25);
         spinBoxes[1]->setRange(5, 25);
-        spinBoxes[0]->setValue(5);
-        spinBoxes[1]->setValue(5);
-        spinBoxes[2]->setRange(1, 624);
-        spinBoxes[2]->setValue(5);
+        spinBoxes[0]->setValue(w.mineField.w);
+        spinBoxes[1]->setValue(w.mineField.h);
+        spinBoxes[2]->setRange(1, 313);
+        spinBoxes[2]->setValue(w.mineField.num_active);
 
-        QDialog dialog;
-        QFormLayout formLayout(&dialog);
+        QDialog *dialog = new QDialog();
+        QFormLayout formLayout(dialog);
+        dialog->setWindowIcon(QIcon(":/assets/flag.png"));
         formLayout.addRow(QApplication::translate("main", "number of boxes horizontally: "), spinBoxes[0]);
         formLayout.addRow(QApplication::translate("main", "number of boxes vertically: "), spinBoxes[1]);
         formLayout.addRow(QApplication::translate("main", "number of mines: "), spinBoxes[2]);
 
+        //QDialogButtonBox buttonBox(QDialogButtonBox::Ok);
+        //formLayout.addRow(&buttonBox);
+
+        //QObject::connect(&buttonBox, &QDialogButtonBox::accepted, dialog, &QDialog::accept);
+        //QObject::connect(&buttonBox, &QDialogButtonBox::rejected, dialog, &QDialog::reject);
+
+        // Connect the dialog finished signal to a new lambda function
+        QObject::connect(dialog, &QDialog::finished, [=, &w](){
+                int size_w = spinBoxes[0]->value();
+                int size_h = spinBoxes[1]->value();
+                int mines_max = spinBoxes[2]->value();
+
+                w.mineField.set_difficulty(size_w, size_h, mines_max);
+                render_board(w, mine_size);
+        });
+        dialog->open();
+    });
+
+    QAction *mineSizeAction = new QAction("mineSize");
+    QObject::connect(mineSizeAction, &QAction::triggered, [=, &w, &mine_size](){
+        QList<QSpinBox *> spinBoxes;
+        spinBoxes.append(new QSpinBox());
+
+        spinBoxes[0]->setRange(25, 100);
+        spinBoxes[0]->setValue(mine_size);
+
+        QDialog *dialog = new QDialog();
+        QFormLayout formLayout(dialog);
+        dialog->setWindowIcon(QIcon(":/assets/flag.png"));
+        formLayout.addRow(QApplication::translate("main", "mine size: "), spinBoxes[0]);
+
         QDialogButtonBox buttonBox(QDialogButtonBox::Ok);
         formLayout.addRow(&buttonBox);
 
-        QObject::connect(&buttonBox, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
-        QObject::connect(&buttonBox, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
-        if (dialog.exec() == QDialog::Accepted) {
-            int size_w = spinBoxes[0]->value();
-            int size_h = spinBoxes[1]->value();
-            int mines_max = spinBoxes[2]->value();
+        //QObject::connect(&buttonBox, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
+        //QObject::connect(&buttonBox, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
 
-            w.mineField.set_difficulty(size_w, size_h, mines_max);
+        QObject::connect(dialog, &QDialog::finished, [=, &w, &mine_size](){
+            mine_size = spinBoxes[0]->value();
             render_board(w, mine_size);
-        }
-        else{
-            w.mineField.set_difficulty(1);
-            render_board(w, mine_size);
-        }
+        });
+
+        dialog->open();
     });
 
     difficultyMenu->addAction(easyAction);
@@ -96,13 +129,14 @@ int main(int argc, char *argv[])
     difficultyMenu->addAction(hardAction);
     difficultyMenu->addAction(customAction);
 
+    configMenu->addAction(mineSizeAction);
+
     menuBar->addMenu(difficultyMenu);
+    menuBar->addMenu(configMenu);
 
     w.setMenuBar(menuBar);
 
     w.smiley = new QPushButton;
-
-    w.mineField = MineField(w.mines_w, w.mines_h, w.num_active);
 
     w.setFixedSize(w.mineField.w * mine_size, w.mineField.h * mine_size);
 
@@ -113,6 +147,7 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
+/* Displays the window with the layout. */
 void render_board(QtMines & qtm, int mine_size){
     delete qtm.mineField.timer; //prevent multiple timers
 
@@ -133,7 +168,7 @@ void render_board(QtMines & qtm, int mine_size){
     qtm.mineField.digitRight = Digit();
 
     qtm.mineField.digitRight.update(0, r);
-    qtm.mineField.digitLeft.update(qtm.num_active, r);
+    qtm.mineField.digitLeft.update(qtm.mineField.num_active, r);
 
     header->addWidget(qtm.mineField.digitLeft.d1);
     header->addWidget(qtm.mineField.digitLeft.d2);

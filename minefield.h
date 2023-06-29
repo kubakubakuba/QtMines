@@ -105,7 +105,7 @@ public:
         w = x;
         h = y;
 
-        num_active = std::min(x * y - 1, m); //the maximum amount of mines can be x*y - 1
+        num_active = std::min((int)(x * y / 2), m); //the maximum amount of mines can be x*y / 2
 
         reset();
     }
@@ -139,6 +139,45 @@ public:
         }
     }
 
+    /* Checks if guessing is needed (check for neighbouring mines), not guaranteed. */
+    void check_guessing(int x, int y) {
+        bool guessing = true;
+        for (int i = 0; i < h; ++i) {
+            for (int j = 0; j < w; ++j) {
+                if (data[i * w + j] != -1) {
+                    // if current cell is not a mine
+                    bool is_mine_neighbor = false;
+                    for (int di = -1; di <= 1; ++di) {
+                        for (int dj = -1; dj <= 1; ++dj) {
+                            int new_i = i + di;
+                            int new_j = j + dj;
+                            if (new_i >= 0 && new_i < h && new_j >= 0 && new_j < w && data[new_i * w + new_j] == -1) {
+                                // if there is a mine as neighbor
+                                is_mine_neighbor = true;
+                                break;
+                            }
+                        }
+                        if (is_mine_neighbor) {
+                            break;
+                        }
+                    }
+                    if (!is_mine_neighbor) {
+                        guessing = false;
+                        break;
+                    }
+                }
+            }
+            if (!guessing) {
+                break;
+            }
+        }
+
+        if (guessing) {
+            // rearrange mines
+            set_mines(x, y, num_active);
+        }
+    }
+
     /* Function that fills the minefield with the specified amount of mines, then randomizes the field so the entry-point
      * space is not a mine and invokes a click method on that field.
     */
@@ -166,6 +205,7 @@ public:
         if(!mines_set){ //execute only once at the start of the game
             mines_set = true;
             set_mines(x, y, num_active);
+            check_guessing(x, y);
 
             buttons[y * w + x]->setStyleSheet("QPushButton { border: none; }"
                                 "QPushButton:hover { background-color: none; }");
