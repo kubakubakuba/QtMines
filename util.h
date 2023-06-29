@@ -5,6 +5,7 @@
 #ifndef UTIL_H
 #define UTIL_H
 
+/* Class containing all resource images for the projet. */
 class Rsrc{
 public:
     std::vector<QPixmap> digits;
@@ -12,27 +13,14 @@ public:
     std::vector<QPixmap> face;
 
     Rsrc(){
-        digits.push_back(QPixmap(":/assets/digit0.png"));
-        digits.push_back(QPixmap(":/assets/digit1.png"));
-        digits.push_back(QPixmap(":/assets/digit2.png"));
-        digits.push_back(QPixmap(":/assets/digit3.png"));
-        digits.push_back(QPixmap(":/assets/digit4.png"));
-        digits.push_back(QPixmap(":/assets/digit5.png"));
-        digits.push_back(QPixmap(":/assets/digit6.png"));
-        digits.push_back(QPixmap(":/assets/digit7.png"));
-        digits.push_back(QPixmap(":/assets/digit8.png"));
-        digits.push_back(QPixmap(":/assets/digit9.png"));
+        for(int i = 0; i <= 9; ++i){
+            digits.push_back(QPixmap(QString(":/assets/digit%1.png").arg(i)));
+        }
         digits.push_back(QPixmap(":/assets/digit-.png"));
 
-        buttons.push_back(QPixmap(":/assets/0.png"));
-        buttons.push_back(QPixmap(":/assets/1.png"));
-        buttons.push_back(QPixmap(":/assets/2.png"));
-        buttons.push_back(QPixmap(":/assets/3.png"));
-        buttons.push_back(QPixmap(":/assets/4.png"));
-        buttons.push_back(QPixmap(":/assets/5.png"));
-        buttons.push_back(QPixmap(":/assets/6.png"));
-        buttons.push_back(QPixmap(":/assets/7.png"));
-        buttons.push_back(QPixmap(":/assets/8.png"));
+        for(int i = 0; i <= 8; ++i){
+            buttons.push_back(QPixmap(QString(":/assets/%1.png").arg(i)));
+        }
         buttons.push_back(QPixmap(":/assets/flag.png"));
         buttons.push_back(QPixmap(":/assets/mine.png"));
         buttons.push_back(QPixmap(":/assets/mine-death.png"));
@@ -45,6 +33,7 @@ public:
 
 };
 
+/* Class for rendering 3-wide 7 segment displays. */
 class Digit{
 public:
     QLabel *d1;
@@ -61,6 +50,7 @@ public:
         d3->setPixmap(QPixmap(":/assets/0.png"));
     }
 
+    /* Re-renders the display by changing the digit images. */
     void update(int num, Rsrc r){
         if(num < 0){
             num = - num;

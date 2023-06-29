@@ -17,7 +17,7 @@ signals:
     void rightClicked();
 
 protected:
-    void mousePressEvent(QMouseEvent* event) override
+    void mousePressEvent(QMouseEvent* event) override //different actions when left or right mouse button is pressed
     {
         if (event->button() == Qt::LeftButton){
             emit leftClicked();

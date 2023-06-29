@@ -104,23 +104,18 @@ int main(int argc, char *argv[])
 
     w.mineField = MineField(w.mines_w, w.mines_h, w.num_active);
 
-    w.mineField.timer->setInterval(1000);
-
-    QObject::connect(w.mineField.timer, &QTimer::timeout, [&](){
-        w.mineField.digitRight.update((++w.mineField.time) % 999, Rsrc());
-    });
-
-    w.mineField.timer->start();
-
     w.setFixedSize(w.mineField.w * mine_size, w.mineField.h * mine_size);
 
     w.show();
 
     render_board(w, mine_size);
+
     return a.exec();
 }
 
 void render_board(QtMines & qtm, int mine_size){
+    delete qtm.mineField.timer; //prevent multiple timers
+
     qtm.mineField = MineField(qtm.mineField.w, qtm.mineField.h, qtm.mineField.num_active);
     qtm.setCentralWidget(new QWidget);
 
@@ -166,6 +161,14 @@ void render_board(QtMines & qtm, int mine_size){
     qtm.smiley->setFlat(true);
     qtm.mineField.smiley = qtm.smiley;
     vLayout->addLayout(header);
+
+    qtm.mineField.timer->setInterval(1000);
+
+    QObject::connect(qtm.mineField.timer, &QTimer::timeout, [&](){
+        qtm.mineField.digitRight.update((++qtm.mineField.time) % 999, Rsrc());
+    });
+
+    qtm.mineField.timer->start();
 
     for (int i = 0; i < qtm.mineField.h; i++) {
         QHBoxLayout* hLayout = new QHBoxLayout;

@@ -47,6 +47,7 @@ public:
         return data[y * w + x];
     }
 
+    /* Resets the game to the initial state. */
     void reset(){
         win = false;
         lost = false;
@@ -54,7 +55,6 @@ public:
         mines_set = false;
 
         for(auto b : buttons){
-            //b->setDisabled(false);
             b->setIcon(rsrc.buttons[0]);
             b->setStyleSheet("QPushButton { border: 1px solid black; }"
                              "QPushButton:hover { background-color: yellow; }");
@@ -72,8 +72,9 @@ public:
         timer->start();
     }
 
-    void set_difficulty(int d){
-        switch(d){
+    /* Sets difficulty to the selected level. */
+    void set_difficulty(int diff){
+        switch(diff){
         case 0:
             num_active = 10;
             w = 9;
@@ -99,6 +100,7 @@ public:
         reset();
     }
 
+    /* Overload for custom difficulty. */
     void set_difficulty(int x, int y, int m){
         w = x;
         h = y;
@@ -123,10 +125,10 @@ public:
                             continue;
                         }
 
-                        int ni = i + di; //neighbour i
-                        int nj = j + dj; //neighbour j
+                        int new_i = i + di; //neighbour i
+                        int new_j = j + dj; //neighbour j
 
-                        if (ni >= 0 && ni < h && nj >= 0 && nj < w && data[ni * w + nj] == -1) { //is in range
+                        if (new_i >= 0 && new_i < h && new_j >= 0 && new_j < w && data[new_i * w + new_j] == -1) { //is in range
                             sum++;
                         }
                     }
@@ -164,10 +166,11 @@ public:
         if(!mines_set){ //execute only once at the start of the game
             mines_set = true;
             set_mines(x, y, num_active);
-            //buttons[y * w + x]->setDisabled(true);
+
             buttons[y * w + x]->setStyleSheet("QPushButton { border: none; }"
                                 "QPushButton:hover { background-color: none; }");
             clicked_spaces[y * w + x] = 1;
+
             return;
         }
 
@@ -176,7 +179,6 @@ public:
         }
 
         if(data[y * w + x] == 0){ //recursively click on mines
-            //buttons[y * w + x]->setDisabled(true);
             buttons[y * w + x]->setStyleSheet("QPushButton { border: none; }"
                                               "QPushButton:hover { background-color: none; }");
             clicked_spaces[y * w + x] = 1;
@@ -191,7 +193,6 @@ public:
                         }
 
                         if (new_x >= 0 && new_x < w && new_y >= 0 && new_y < h){
-                            //update_flag(x, y);
                             flags[y * w + x] = 0;
                             update_flag_count();
 
@@ -201,10 +202,14 @@ public:
                     }
                 }
             }
+
+            if(check_win()){
+                disable_all();
+                smiley->setIcon(rsrc.face[2]);
+            }
         }
 
         else if(data[y * w + x] == -1){
-            //buttons[y * w + x]->setDisabled(true);
             buttons[y * w + x]->setStyleSheet("QPushButton { border: none; }"
                                               "QPushButton:hover { background-color: none; }");
             clicked_spaces[y * w + x] = 1;
@@ -222,7 +227,6 @@ public:
         }
 
         else{
-            //buttons[y * w + x]->setDisabled(true);
             buttons[y * w + x]->setStyleSheet("QPushButton { border: none; }"
                                               "QPushButton:hover { background-color: none; }");
             clicked_spaces[y * w + x] = 1;
@@ -231,19 +235,26 @@ public:
             update_flag_count();
 
             buttons[y * w + x]->setIcon(rsrc.buttons[data[y * w + x]]);
+
+            if(check_win()){
+                disable_all();
+                smiley->setIcon(rsrc.face[2]);
+            }
         }
     }
 
     /* Check if all mines have been flagged correctly, if yes, win the game. */
     bool check_win(){
         int sum = 0;
+        int flag_sum = 0;
         for(int i = 0; i < h; ++i){
             for(int j = 0; j < w; ++j){
-                sum += flags[i * w + j] * data[i * w + j]; //only count flag spaces
+                flag_sum += flags[i * w + j] * data[i * w + j]; //only count flag spaces
+                sum += clicked_spaces[i * w + j]; //count all clicked spaces
             }
         }
 
-        return sum == -num_active;
+        return (sum == w * h - num_active) && (flag_sum == -num_active);
     }
 
     /* Function that destructively disables all spaces, so they are not clickable. */
@@ -252,7 +263,6 @@ public:
             for(int j = 0; j < w; ++j){
                 if(!clicked_spaces[i * w + j]){
                     clicked_spaces[i * w + j] = 1;
-                    //buttons[i * w + j]->setEnabled(false);
                     buttons[i * w + j]->setStyleSheet("QPushButton { border: none; }"
                                                       "QPushButton:hover { background-color: none; }");
                     buttons[i * w + j]->setIcon(data[i * w + j] >= 0 ? rsrc.buttons[data[i * w + j]] : rsrc.buttons[10]);
