@@ -1,6 +1,6 @@
 # QtMines
 
-The attempt of this project is to try to recreate a WindowsXP Minesweeper game in C++ Qt5.
+The attempt of this project is to try to recreate a WindowsXP Minesweeper game in C++ Qt5 (Qt6).
 
 ![image](https://github.com/kubakubakuba/QtMines/assets/13603688/c281cbd4-f161-4347-92fb-525f60a3c105)
 
