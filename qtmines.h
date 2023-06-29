@@ -25,7 +25,6 @@ public:
     ~QtMines();
     MineField mineField = MineField();
     int mines_w, mines_h, time, num_active;
-    Digit digitLeft, digitRight;
     QPushButton* smiley;
 
 private:

@@ -26,5 +26,6 @@
         <file>assets/mine-death.png</file>
         <file>assets/misflagged.png</file>
         <file>assets/smile.png</file>
+        <file>assets/win.png</file>
     </qresource>
 </RCC>

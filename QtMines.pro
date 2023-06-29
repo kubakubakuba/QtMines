@@ -13,6 +13,7 @@ SOURCES += \
     qtmines.cpp
 
 HEADERS += \
+    Mine.h \
     minefield.h \
     qtmines.h \
     util.h

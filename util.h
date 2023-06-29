@@ -40,6 +40,7 @@ public:
 
         face.push_back(QPixmap(":/assets/smile.png"));
         face.push_back(QPixmap(":/assets/dead.png"));
+        face.push_back(QPixmap(":/assets/win.png"));
     }
 
 };
@@ -62,6 +63,7 @@ public:
 
     void update(int num, Rsrc r){
         if(num < 0){
+            num = - num;
             d1->setPixmap(r.digits[10]);
             d2->setPixmap(r.digits[(num / 10) % 10]);
             d3->setPixmap(r.digits[num % 10]);
