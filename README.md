@@ -17,6 +17,8 @@ The project has been compiled into an WebAssembly, which is located [here](http:
 - Note (1): the resizing does not work for some reason on the web, you may need to change the difficulty to fix it.
 - ~~Note (2): the custom difficulty currently does not work on the web (for some reason :/)~~ (fixed)
 
+Standalone version compiled for Windows is also available in [releases](https://github.com/kubakubakuba/QtMines/releases) the tab.
+
 ### User interface
 
 ![image](https://github.com/kubakubakuba/QtMines/assets/13603688/3c38b27e-fe7a-4c66-8767-35bd548c2a4c)
