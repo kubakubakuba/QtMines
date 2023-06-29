@@ -2,7 +2,8 @@
 
 The attempt of this project is to try to recreate a WindowsXP Minesweeper game in C++ Qt5.
 
-![image](https://github.com/kubakubakuba/QtMines/assets/13603688/1b314aed-577c-4bc9-8d2b-003fae8d0211)
+![image](https://github.com/kubakubakuba/QtMines/assets/13603688/c10ca200-14e0-4842-b1ff-de5fb5dd8002)
+
 
 ### Controls
 - Left click to reveal the mine, right click to place or remove a flag. If all flags are placed on the correct mines, the whole board is revealed.
