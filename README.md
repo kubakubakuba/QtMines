@@ -2,8 +2,7 @@
 
 The attempt of this project is to try to recreate a WindowsXP Minesweeper game in C++ Qt5.
 
-![image](https://github.com/kubakubakuba/QtMines/assets/13603688/c10ca200-14e0-4842-b1ff-de5fb5dd8002)
-
+![image](https://github.com/kubakubakuba/QtMines/assets/13603688/c281cbd4-f161-4347-92fb-525f60a3c105)
 
 ### Controls
 - Left click to reveal the mine, right click to place or remove a flag. If all flags are placed on the correct mines, the whole board is revealed.
@@ -17,6 +16,12 @@ If a mine in revealed instead, the game is lost.
 The project has been compiled into an WebAssembly, which is located [here](http://vps.swpelc.eu/ctu/minesweeper/).
 - Note (1): the resizing does not work for some reason on the web, you may need to change the difficulty from hard to easy to fix it.
 - Note (2): the custom difficulty currently does not work on the web (for some reason :/)
+
+### User interface
+
+![image](https://github.com/kubakubakuba/QtMines/assets/13603688/3c38b27e-fe7a-4c66-8767-35bd548c2a4c)
+![image](https://github.com/kubakubakuba/QtMines/assets/13603688/4980d425-e451-4177-944f-26dab4f69dff)
+
 
 ### Compiling
 Compile in the usual way by running `qmake` and `make`.
