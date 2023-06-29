@@ -15,7 +15,7 @@ If a mine in revealed instead, the game is lost.
 
 The project has been compiled into an WebAssembly, which is located [here](http://vps.swpelc.eu/ctu/minesweeper/).
 - Note (1): the resizing does not work for some reason on the web, you may need to change the difficulty from hard to easy to fix it.
-- Note (2): the custom difficulty currently does not work on the web
+- Note (2): the custom difficulty currently does not work on the web (for some reason :/)
 
 ### Compiling
 Compile in the usual way by running `qmake` and `make`.
