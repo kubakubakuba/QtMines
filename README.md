@@ -23,4 +23,4 @@ Compile in the usual way by running `qmake` and `make`.
 ## Sources
 Assets were obtained from [here](https://github.com/ShizukuIchi/minesweeper/tree/master).
 
-#### by Jakub Pelc for PPC semestral work
+#### by Jakub Pelc for B2B99PPC semestral work
