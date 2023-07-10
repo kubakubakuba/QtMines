@@ -243,6 +243,14 @@ void render_board(QtMines & qtm, int mine_size){
 
                 qtm.mineField.update_flag(j, i);
             });
+
+            QObject::connect(mine, &Mine::longPress, [&qtm, j, i]() {
+                if(qtm.mineField.clicked_spaces[qtm.mineField.w * i + j]){
+                    return;
+                }
+
+                qtm.mineField.update_flag(j, i);
+            });
         }
 
         vLayout->addLayout(hLayout);
